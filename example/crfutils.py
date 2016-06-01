@@ -46,7 +46,6 @@ def apply_templates(X, templates):
     @param  template:   The feature template.
     """
     for template in templates:
-        print(template)
         name = '|'.join(['%s[%d]' % (f, o) for f, o, p in template])
         for t in range(len(X)):
             values = []
@@ -61,7 +60,7 @@ def apply_templates(X, templates):
                     total_matched = False
                     break
                 values.append(pattern.pattern)
-            if total_matched:
+            if total_matched and values:
                 X[t]['F'].append('%s=%s' % (name, '|'.join(values)))
 
 def readiter(fi, names, sep=' '):
@@ -83,13 +82,14 @@ def readiter(fi, names, sep=' '):
     @rtype          list of mapping objects
     @return         An iterator for sequences.
     """
+    all_Xs = []
     X = []
     for line in fi:
         line = line.strip('\n')
         if not line:
             #yield X
-            #X = []
-            pass
+            all_Xs.append(X)
+            X = []
         else:
             fields = line.split(sep)
             if len(fields) < len(names):
@@ -99,7 +99,9 @@ def readiter(fi, names, sep=' '):
             for i in range(len(names)):
                 item[names[i]] = fields[i]
             X.append(item)
-    return [X]
+    if X:
+        all_Xs.append(X)
+    return all_Xs
 
 def escape(src):
     """
