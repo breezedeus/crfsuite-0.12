@@ -46,10 +46,10 @@ import crfutils
 def feature_extractor(X):
     # Apply attribute templates to obtain features (in fact, attributes)
     crfutils.apply_templates(X, templates)
-    if X:
-	# Append BOS and EOS features manually
-        X[0]['F'].append('__BOS__')     # BOS feature
-        X[-1]['F'].append('__EOS__')    # EOS feature
+    #if X:
+	## Append BOS and EOS features manually
+    #    X[0]['F'].append('__BOS__')     # BOS feature
+    #    X[-1]['F'].append('__EOS__')    # EOS feature
 
 if __name__ == '__main__':
     import sys
